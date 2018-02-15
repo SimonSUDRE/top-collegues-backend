@@ -18,19 +18,18 @@ import topcolleguesbackend.topcollegues.repository.CollegueRepository;
 
 @RestController
 @RequestMapping("/collegues")
+@CrossOrigin
 public class CollegueController {
 
 	@Autowired
 	private CollegueRepository colRepo;
 
 	@GetMapping
-	@CrossOrigin
 	public List<Collegue> lister() {
 		return colRepo.findAll();
 	}
 
 	@PostMapping
-	@CrossOrigin
 	public Collegue ajouter(@RequestBody Collegue col) {
 		if (colRepo.getByPseudo(col.getPseudo()) == null) {
 			colRepo.save(col);
@@ -40,7 +39,6 @@ public class CollegueController {
 	}
 
 	@PatchMapping("/{pseudo}")
-	@CrossOrigin
 	public Collegue modif(@PathVariable String pseudo, @RequestBody Map<String, String> action) {
 		Collegue col = colRepo.getByPseudo(pseudo);
 		if (col != null) {
