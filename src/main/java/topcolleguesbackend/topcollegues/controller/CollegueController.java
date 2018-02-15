@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,20 @@ public class CollegueController {
 		try {
 			if (!collegue.isPresent()) {
 				return ResponseEntity.ok(colRepo.save(col));
+			}
+			return ResponseEntity.badRequest().build();
+		} catch (javax.persistence.PersistenceException e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+	
+	@DeleteMapping("/{pseudo}")
+	public ResponseEntity<Collegue> supprimer(@PathVariable String pseudo) {
+		Optional<Collegue> collegue = colRepo.getByPseudo(pseudo);
+		try {
+			if (collegue.isPresent()) {
+				colRepo.delete(collegue.get());
+				return ResponseEntity.ok(collegue.get());
 			}
 			return ResponseEntity.badRequest().build();
 		} catch (javax.persistence.PersistenceException e) {
