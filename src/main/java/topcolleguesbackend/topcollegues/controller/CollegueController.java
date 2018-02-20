@@ -31,6 +31,15 @@ public class CollegueController {
 	public ResponseEntity<List<Collegue>> lister() {
 		return ResponseEntity.ok(colRepo.findAll());
 	}
+	
+	@GetMapping("/{pseudo}")
+	public ResponseEntity<Collegue> addcollegue(@PathVariable String pseudo) {
+		Optional<Collegue> collegue = colRepo.getByPseudo(pseudo);
+		if (collegue.isPresent()) {
+			return ResponseEntity.ok(collegue.get());
+		}
+		return ResponseEntity.badRequest().build();
+	}
 
 	@PostMapping
 	public ResponseEntity<Collegue> ajouter(@RequestBody Collegue col) {
