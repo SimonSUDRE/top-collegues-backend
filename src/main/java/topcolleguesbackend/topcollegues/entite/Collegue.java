@@ -1,8 +1,12 @@
 package topcolleguesbackend.topcollegues.entite;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Collegue {
@@ -16,14 +20,19 @@ public class Collegue {
 
 	@Column(nullable = false)
 	private Integer score = 0;
+	
+	@OneToMany
+	private List<Comment> avis;
 
-	public Collegue() {}
+	public Collegue() {
+		this.avis = new ArrayList<>();
+	}
 	
 	public Collegue(String pseudo, String imageUrl, Integer score) {
-		super();
 		this.pseudo = pseudo;
 		this.imageUrl = imageUrl;
 		this.score = score;
+		this.avis = new ArrayList<>();
 	}
 
 	public String getPseudo() {
@@ -48,5 +57,13 @@ public class Collegue {
 
 	public void setScore(Integer score) {
 		this.score = score;
+	}
+
+	public List<Comment> getAvis() {
+		return avis;
+	}
+
+	public void setAvis(List<Comment> avis) {
+		this.avis = avis;
 	}
 }
